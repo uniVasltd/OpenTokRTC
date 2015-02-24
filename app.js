@@ -28,8 +28,13 @@ app.use(express.static(__dirname + '/public'));
 // ***
 // *** Load middleware
 // ***
-app.use(cors({methods:'GET'}));
+//app.use(cors({methods:'GET'}));
 storage.init(config); // setup memory or redis, depending on config
+// prevent iframe embedding
+app.use(function(req, res, next) {
+  res.header('X-Frame-Options', 'SAMEORIGIN');
+  next();
+});
 loadMiddleware(app, config);
 
 // ***
